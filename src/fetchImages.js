@@ -7,21 +7,13 @@ const BASE_URL = 'https://pixabay.com/api/';
 // };
 
 const parameters = '';
-export const fetchImages = inputValue => {
-  //   return fetch(
-  //     `${BASE_URL}?key=${API_KEY}&q=${inputValue}&language=en&per_page=5&page=${page}`
-  //   ).then(response => {
-  //     if (!response.ok) {
-  //       throw new Error(response.status);
-  //     }
-  //     return response.json();
-  //   });
+export const fetchImages = (inputValue, p) => {
   return fetch(
-    `${BASE_URL}?key=${API_KEY}&q=yellow+flowers&image_type=photo&per_page=5&page=1`
+    `${BASE_URL}?key=${API_KEY}&q=${inputValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=5&page=${p}`
   ).then(response => {
     if (!response.ok) {
       throw new Error(response.status);
-    }
+      }
     return response.json();
   });
 };
