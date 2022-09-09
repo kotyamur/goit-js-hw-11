@@ -52,3 +52,9 @@
 .gallery__link:hover {
   cursor: zoom-in;
 }
+
+button.load-more {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
