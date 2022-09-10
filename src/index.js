@@ -52,6 +52,7 @@ const preparePicture = hits => {
 
 const onSearchBtn = async evt => {
   evt.preventDefault();
+  loadMoreBtnEl.classList.add('is-hidden');
   searchQuery = evt.currentTarget.elements.searchQuery.value;
   page = 1;
   picturesContainerEl.innerHTML = '';
@@ -60,8 +61,6 @@ const onSearchBtn = async evt => {
     Notify.failure('Please enter your search query.');
     return;
   }
-
-  loadMoreBtnEl.classList.add('is-hidden');
   
   try {
     const { data } = await fetchImages(searchQuery, page, PER_PAGE);
