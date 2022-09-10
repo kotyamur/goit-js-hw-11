@@ -62,34 +62,43 @@ const onSearchBtn = async evt => {
   }
 
   loadMoreBtnEl.classList.add('is-hidden');
-  const { data } = await fetchImages(searchQuery, page, PER_PAGE);
-  if (data.totalHits === 0) {
-    Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-    return;
-  }
-  Notify.success(`Hooray! We found ${data.totalHits} images.`);
-  preparePicture(data.hits);
-  loadMoreBtnEl.classList.remove('is-hidden');
-  if (data.totalHits <= PER_PAGE) {
-    setTimeout(() => {
-      Notify.info('There are all images matching your search query.');
-      loadMoreBtnEl.classList.add('is-hidden');
+  
+  try {
+    const { data } = await fetchImages(searchQuery, page, PER_PAGE);
+    if (data.totalHits === 0) {
+      Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
       return;
-    }, 1000);
+    }
+    Notify.success(`Hooray! We found ${data.totalHits} images.`);
+    preparePicture(data.hits);
+    loadMoreBtnEl.classList.remove('is-hidden');
+    if (data.totalHits <= PER_PAGE) {
+      setTimeout(() => {
+        Notify.info('There are all images matching your search query.');
+        loadMoreBtnEl.classList.add('is-hidden');
+        return;
+      }, 1000);
+    }
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
 const onLoadMoreBtn = async () => {
-  const { data } = await fetchImages(searchQuery, page, PER_PAGE);
-  const countOfPages = data.totalHits / PER_PAGE;
-  if (page >= countOfPages) {
-    Notify.info("We're sorry, but you've reached the end of search results.");
-    loadMoreBtnEl.classList.add('is-hidden');
-    return;
-  }
-  preparePicture(data.hits);
+  try {
+    const { data } = await fetchImages(searchQuery, page, PER_PAGE);
+    const countOfPages = data.totalHits / PER_PAGE;
+    if (page >= countOfPages) {
+      Notify.info("We're sorry, but you've reached the end of search results.");
+      loadMoreBtnEl.classList.add('is-hidden');
+      return;
+    }
+    preparePicture(data.hits);
+  } catch (error) {
+    console.log(error.message);
+  }  
 };
 
 searchFormEl.addEventListener('submit', onSearchBtn);
