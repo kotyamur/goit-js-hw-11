@@ -85,6 +85,17 @@ const onSearchBtn = async evt => {
   }
 };
 
+const smoothScroll = () => {
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+}
+
 const onLoadMoreBtn = async () => {
   try {
     const { data } = await fetchImages(searchQuery, page, PER_PAGE);
@@ -95,6 +106,7 @@ const onLoadMoreBtn = async () => {
       return;
     }
     preparePicture(data.hits);
+    smoothScroll();
   } catch (error) {
     console.log(error.message);
   }  
